@@ -31,26 +31,22 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-var dictionary = "";
-$.ajax({
-    url: "command/core/load-language?",
-    type: "POST",
-    async: false,
-    data: {
-        module: "geojson",
-    },
-    success: function (data) {
-        dictionary = data['dictionary'];
-        lang = data['lang'];
-    }
-});
-$.i18n().load(dictionary, lang);
-const menuIndex = ExporterManager.MenuItems.findIndex(i => i.id === "core/export-ods");
+// LESS styles
+// For documentation, see http://lesscss.org/
 
-ExporterManager.MenuItems.splice(menuIndex, 0, {
-    "id": "export-to-geojson",
-    "label": $.i18n('geojson/export-to-geojson'),
-    "click": function () {
-        new GeoJSONExporterDialog();
-    }
-});
+.geojson-exporter-dialog-row {
+  border: 1px solid #bcf;
+  background: #f2f2f2;
+  padding: 3px;
+  margin: 5px 0;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.geojson-exporter-columns {
+  margin: 1em 0;
+  padding-right: 1em;
+  overflow-y: scroll;
+  height: 22em;
+}
