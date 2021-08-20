@@ -4,6 +4,7 @@ module/MOD-INF/lib/
 .idea
 
 *.class
+
 *.log
 
 *.jar
