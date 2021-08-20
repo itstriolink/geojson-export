@@ -15,9 +15,9 @@ build_assembly:
     script:
       - mvn assembly:single
     artifacts:
-      name: "GeoJSON ZIP"
       paths:
-        - ./target/geojson-export-1.0.0.zip
+        - target/geojson-export-1.0.0.zip
+        - target/geojson-export-1.0.0.tgz
 
 test:
     stage: test
