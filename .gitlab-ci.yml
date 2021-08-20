@@ -1,0 +1,25 @@
+image: maven:latest
+
+stages:
+    - build
+    - test
+    - release
+
+build:
+    stage: build
+    script:
+        - mvn -B package
+
+test:
+    stage: test
+    script: 
+        - mvn -B clean test
+
+release:
+    stage: release
+    image: registry.gitlab.com/gitlab-org/release-cli
+    when: manual
+    except:
+        - tags
+    script:
+        - release-cli create --name release-branch-$CI_JOB_ID --description release-branch-$CI_COMMIT_REF_NAME-$CI_JOB_ID --tag-name job-$CI_JOB_ID --ref $CI_COMMIT_SHA
