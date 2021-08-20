@@ -2,27 +2,39 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>geojson</artifactId>
+    <groupId>org.labiangashi.openrefine</groupId>
+    <artifactId>openrefine-geojson-export</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>OpenRefine - GeoJSON Extension</name>
+    <name>OpenRefine - GeoJSON Export Extension</name>
     <description>GeoJSON export for OpenRefine</description>
-    <url>http://openrefine.org/</url>
-    <parent>
-        <groupId>org.openrefine</groupId>
-        <artifactId>extensions</artifactId>
-        <version>3.6-SNAPSHOT</version>
-    </parent>
+    <url>https://gitlab.com/labiangashi/geojson-export</url>
+
+    <properties>
+        <openrefine.version>3.4.1</openrefine.version>
+        <jee.path>/</jee.path>
+        <jee.port>3333</jee.port>
+        <refine.data>/tmp/refine</refine.data>
+        <surefire.version>2.22.2</surefire.version>
+        <surefireArgs/>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jackson.version>2.12.3</jackson.version>
+        <servlet-api.version>4.0.1</servlet-api.version>
+        <butterfly.version>1.1.1</butterfly.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <jetty.version>9.4.26.v20200117</jetty.version>
+    </properties>
 
     <build>
-        <finalName>openrefine-geojson</finalName>
+        <finalName>${project.artifactId}</finalName>
+        <outputDirectory>module/MOD-INF/classes</outputDirectory>
+        <testSourceDirectory>tests/src</testSourceDirectory>
         <resources>
             <resource>
                 <directory>src</directory>
             </resource>
         </resources>
-        <testSourceDirectory>tests/src</testSourceDirectory>
-        <outputDirectory>module/MOD-INF/classes</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -103,17 +115,32 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2/</url>
+        </repository>
+        <repository>
+            <id>maven-repository</id>
+            <url>file:///${project.basedir}/project-repository</url>
+        </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
+        <dependency>
+            <groupId>org.openrefine</groupId>
+            <artifactId>main</artifactId>
+            <version>${openrefine.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
             <version>1.18.0</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>main</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
