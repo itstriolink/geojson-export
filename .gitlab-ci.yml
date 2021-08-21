@@ -15,7 +15,7 @@ artifacts:
     rules:
         - if: $CI_COMMIT_TAG
     script:
-      - mvn assembly:single
+      - mvn -B assembly:single
       - echo "Building extension"
     artifacts:
       paths:
