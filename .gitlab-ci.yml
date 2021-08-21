@@ -5,18 +5,14 @@ stages:
     - test
     - release
 
-build_compile:
-  stage: build
-  script:
-    - mvn -B clean compile
-
-artifacts:
+build:
     stage: build
     rules:
         - if: $CI_COMMIT_TAG
     script:
-      - mvn -B assembly:single
       - echo "Building extension"
+      - mvn -B clean compile
+      - mvn -B assembly:single
     artifacts:
       paths:
         - target/*.{zip,tgz}
@@ -42,8 +38,8 @@ release:
       assets:
         links:
           - name: 'geojson-$CI_COMMIT_TAG.zip'
-            url: 'https://gitlab.com/labiangashi/geojson-export/-/jobs/artifacts/$CI_COMMIT_TAG/raw/target/geojson-export-$CI_COMMIT_TAG.zip?job=artifacts'
+            url: 'https://gitlab.com/labiangashi/geojson-export/-/jobs/artifacts/$CI_COMMIT_TAG/raw/target/geojson-export-$CI_COMMIT_TAG.zip?job=build'
           - name: 'geojson-$CI_COMMIT_TAG.tgz'
-            url: 'https://gitlab.com/labiangashi/geojson-export/-/jobs/artifacts/$CI_COMMIT_TAG/raw/target/geojson-export-$CI_COMMIT_TAG.tgz?job=artifacts'
+            url: 'https://gitlab.com/labiangashi/geojson-export/-/jobs/artifacts/$CI_COMMIT_TAG/raw/target/geojson-export-$CI_COMMIT_TAG.tgz?job=build'
 
 
