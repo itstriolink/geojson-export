@@ -1,30 +1,26 @@
 /*
- * Copyright (c) 2017, Tony Opara
- *        All rights reserved.
+ * MIT License
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- * - Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * - Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
+ * Copyright (c) 2021 Labian Gashi
  *
- * Neither the name of Google nor the names of its contributors may be used to
- * endorse or promote products derived from this software without specific
- * prior written permission.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
  *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
- * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
  */
 
 function GeoJSONExporterDialog() {
@@ -34,24 +30,24 @@ function GeoJSONExporterDialog() {
 GeoJSONExporterDialog.prototype._createDialog = function () {
     var self = this;
 
-    this._dialog = $(DOM.loadHTML("geojson", "scripts/dialog.html"));
+    this._dialog = $(DOM.loadHTML("geojson-export", "scripts/dialog.html"));
     this._elmts = DOM.bind(this._dialog);
     this._level = DialogSystem.showDialog(this._dialog);
 
-    this._elmts.dialogHeader.html($.i18n('geojson/geojson-exporter'));
-    this._elmts.enterFileName.html($.i18n('geojson/enter-file-name'));
-    this._elmts.selectProps.html($.i18n('geojson/select-columns-for-properties'));
+    this._elmts.dialogHeader.html($.i18n('geojson-export/geojson-exporter'));
+    this._elmts.enterFileName.html($.i18n('geojson-export/enter-file-name'));
+    this._elmts.selectProps.html($.i18n('geojson-export/select-columns-for-properties'));
 
-    this._elmts.selectGeometryCols.html($.i18n('geojson/select-geometry-columns'));
+    this._elmts.selectGeometryCols.html($.i18n('geojson-export/select-geometry-columns'));
 
-    this._elmts.selectLat.html($.i18n('geojson/select-latitude-column'));
-    this._elmts.selectLon.html($.i18n('geojson/select-longitude-column'));
-    this._elmts.selectWKT.html($.i18n('geojson/select-wkt-column'));
+    this._elmts.selectLat.html($.i18n('geojson-export/select-latitude-column'));
+    this._elmts.selectLon.html($.i18n('geojson-export/select-longitude-column'));
+    this._elmts.selectWKT.html($.i18n('geojson-export/select-wkt-column'));
 
     this._elmts.selectAllButton.html($.i18n('core-buttons/select-all'));
     this._elmts.deselectAllButton.html($.i18n('core-buttons/deselect-all'));
 
-    this._elmts.exportButton.html($.i18n('geojson/export-button'));
+    this._elmts.exportButton.html($.i18n('geojson-export/export-button'));
     this._elmts.cancelButton.html($.i18n('core-buttons/cancel'));
 
     this._elmts.fileNameInput.val(theProject.metadata.name.replace(/\W/g, ' ').replace(/\s+/g, '_'));

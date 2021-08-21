@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.labiangashi.openrefine</groupId>
+    <groupId>com.google.refine</groupId>
     <artifactId>geojson-export</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
@@ -21,7 +21,6 @@
         <jee.port>3333</jee.port>
         <refine.data>/tmp/refine</refine.data>
         <surefire.version>2.22.2</surefire.version>
-        <surefireArgs/>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jackson.version>2.12.3</jackson.version>
         <servlet-api.version>4.0.1</servlet-api.version>
@@ -32,16 +31,8 @@
 
     <repositories>
         <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2/</url>
-        </repository>
-        <repository>
             <id>maven-repository</id>
             <url>file:///${project.basedir}/project-repository</url>
-        </repository>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
@@ -83,6 +74,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -127,9 +119,20 @@
                 <version>3.0.0</version>
                 <configuration>
                     <appendAssemblyId>false</appendAssemblyId>
+                    <finalName>${project.artifactId}-v${project.version}</finalName>
                     <descriptors>
                         <descriptor>src/assembly/module.xml</descriptor>
                     </descriptors>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/conf/tests.xml</suiteXmlFile>
+                    </suiteXmlFiles>
                 </configuration>
             </plugin>
         </plugins>
