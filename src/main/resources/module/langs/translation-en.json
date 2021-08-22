@@ -1,6 +1,6 @@
 {
   "geojson-export/export-button": "Export",
-  "geojson-export/export-to-geojson": "GeoJSON (.geojson)",
+  "geojson-export/export-to-geojson": "GeoJSON (.geojson)...",
   "geojson-export/enter-file-name": "Enter a name for the GeoJSON file: ",
   "geojson-export/geojson-exporter": "Export to GeoJSON",
   "geojson-export/select-columns-for-properties": "Select the columns you want to include as properties",
