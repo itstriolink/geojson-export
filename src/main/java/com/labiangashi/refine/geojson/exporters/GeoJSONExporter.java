@@ -23,7 +23,7 @@
  *
  */
 
-package com.google.refine.geojson.exporters;
+package com.labiangashi.refine.geojson.exporters;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +31,7 @@ import com.google.refine.browsing.Engine;
 import com.google.refine.exporters.CustomizableTabularExporterUtilities;
 import com.google.refine.exporters.TabularSerializer;
 import com.google.refine.exporters.WriterExporter;
-import com.google.refine.geojson.util.Constants;
+import com.labiangashi.refine.geojson.util.Constants;
 import com.google.refine.model.Project;
 import com.google.refine.util.JSONUtilities;
 import org.locationtech.jts.geom.Geometry;

@@ -23,9 +23,9 @@
  *
  */
 
-package com.google.refine.geojson;
+package com.labiangashi.refine.geojson;
 
-import com.google.refine.geojson.util.Constants;
+import com.labiangashi.refine.geojson.util.Constants;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 

@@ -31,7 +31,7 @@ var logger = Packages.org.slf4j.LoggerFactory.getLogger("geojson-export");
 function registerExporters() {
     logger.trace("Registering the GeoJSON exporter...");
     var ExporterRegistry = Packages.com.google.refine.exporters.ExporterRegistry;
-    var GeoJSONExporter = Packages.com.google.refine.geojson.exporters.GeoJSONExporter;
+    var GeoJSONExporter = Packages.com.labiangashi.refine.geojson.exporters.GeoJSONExporter;
 
     ExporterRegistry.registerExporter("geojson", new GeoJSONExporter());
 
@@ -41,7 +41,7 @@ function registerExporters() {
 function registerCommands() {
     logger.trace("Initializing GeoJSON commands...");
     var RefineServlet = Packages.com.google.refine.RefineServlet;
-    RefineServlet.registerCommand(module, "export-to-geojson", new Packages.com.google.refine.geojson.commands.ExportGeoJSONCommand());
+    RefineServlet.registerCommand(module, "export-to-geojson", new Packages.com.labiangashi.refine.geojson.commands.ExportGeoJSONCommand());
     logger.trace("Finished initializing GeoJSON commands.");
 }
 

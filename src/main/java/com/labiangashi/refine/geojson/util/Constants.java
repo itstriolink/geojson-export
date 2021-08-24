@@ -23,7 +23,7 @@
  *
  */
 
-package com.google.refine.geojson.util;
+package com.labiangashi.refine.geojson.util;
 
 public final class Constants {
     public static final double latLonFactor = 1e7;

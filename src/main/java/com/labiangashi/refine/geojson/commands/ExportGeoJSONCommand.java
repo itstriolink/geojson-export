@@ -23,7 +23,7 @@
  *
  */
 
-package com.google.refine.geojson.commands;
+package com.labiangashi.refine.geojson.commands;
 
 import com.google.common.net.PercentEscaper;
 import com.google.refine.ProjectManager;
@@ -35,7 +35,7 @@ import com.google.refine.exporters.ExporterRegistry;
 import com.google.refine.exporters.StreamExporter;
 import com.google.refine.exporters.WriterExporter;
 import com.google.refine.exporters.sql.SqlExporterException;
-import com.google.refine.geojson.exporters.GeoJSONExporter;
+import com.labiangashi.refine.geojson.exporters.GeoJSONExporter;
 import com.google.refine.model.Project;
 import org.apache.http.HttpStatus;
 
