@@ -59,8 +59,8 @@ public class GeoJSONExporter implements WriterExporter {
     String latitudeColumn = "";
     String longitudeColumn = "";
     String wktColumn = "";
-    int geometryNumericScale = 0;
-    double scaleFactor = 1.0D;
+    int geometryNumericScale;
+    double scaleFactor;
 
 
     public GeoJSONExporter() {
@@ -90,6 +90,7 @@ public class GeoJSONExporter implements WriterExporter {
                     geometryNumericScale = 7;
                 }
 
+                scaleFactor = 1.0D;
                 for (int i = 0; i < geometryNumericScale; i++) {
                     scaleFactor *= 10.0D;
                 }
