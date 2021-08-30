@@ -47,6 +47,7 @@ GeoJSONExporterDialog.prototype._createDialog = function () {
     this._elmts.selectAllButton.html($.i18n('core-buttons/select-all'));
     this._elmts.deselectAllButton.html($.i18n('core-buttons/deselect-all'));
 
+    this._elmts.geometryNumericScaleLabel.html($.i18n("geojson-export/geometry-numeric-scale"));
     this._elmts.exportButton.html($.i18n('geojson-export/export-button'));
     this._elmts.cancelButton.html($.i18n('core-buttons/cancel'));
 
@@ -159,6 +160,7 @@ GeoJSONExporterDialog.prototype._getOptionCode = function () {
         encoding: 'UTF-8',
         outputColumnHeaders: false,
         outputBlankRows: false,
+        geometryNumericScale: this._elmts.geometryNumericScaleInput.val(),
         latitudeColumn: $("select#selectLatitude").val(),
         longitudeColumn: $("select#selectLongitude").val(),
         wktColumn: $("select#selectWKT").val(),

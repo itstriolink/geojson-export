@@ -31,7 +31,6 @@ import com.google.refine.browsing.Engine;
 import com.google.refine.exporters.CustomizableTabularExporterUtilities;
 import com.google.refine.exporters.TabularSerializer;
 import com.google.refine.exporters.WriterExporter;
-import com.labiangashi.refine.geojson.util.Constants;
 import com.google.refine.model.Project;
 import com.google.refine.util.JSONUtilities;
 import org.locationtech.jts.geom.Geometry;
@@ -60,6 +59,9 @@ public class GeoJSONExporter implements WriterExporter {
     String latitudeColumn = "";
     String longitudeColumn = "";
     String wktColumn = "";
+    int geometryNumericScale = 0;
+    double scaleFactor = 1.0D;
+
 
     public GeoJSONExporter() {
         wktReader = new WKTReader();
@@ -82,6 +84,15 @@ public class GeoJSONExporter implements WriterExporter {
                 latitudeColumn = JSONUtilities.getString(options, "latitudeColumn", null);
                 longitudeColumn = JSONUtilities.getString(options, "longitudeColumn", null);
                 wktColumn = JSONUtilities.getString(options, "wktColumn", null);
+                geometryNumericScale = JSONUtilities.getInt(options, "geometryNumericScale", 7);
+
+                if (geometryNumericScale < 0 || geometryNumericScale > 10) {
+                    geometryNumericScale = 7;
+                }
+
+                for (int i = 0; i < geometryNumericScale; i++) {
+                    scaleFactor *= 10.0D;
+                }
 
                 List<JsonNode> array = JSONUtilities.getArray(options, "propertyColumns");
                 for (JsonNode columnOptions : array) {
@@ -117,14 +128,14 @@ public class GeoJSONExporter implements WriterExporter {
                         if (cellData.columnName.equals(latitudeColumn)) {
                             try {
                                 latitude = Double.parseDouble(cellData.text);
-                                latitude = Math.round(latitude * Constants.latLonFactor) / Constants.latLonFactor;
+                                latitude = Math.round(latitude * scaleFactor) / scaleFactor;
                             } catch (NumberFormatException nfe) {
                                 logger.error("The '" + cellData.text + "' value on the '" + cellData.columnName + "' column could not be parsed to a latitude coordinate.");
                             }
                         } else if (cellData.columnName.equals(longitudeColumn)) {
                             try {
                                 longitude = Double.parseDouble(cellData.text);
-                                longitude = Math.round(longitude * Constants.latLonFactor) / Constants.latLonFactor;
+                                longitude = Math.round(longitude * scaleFactor) / scaleFactor;
                             } catch (NumberFormatException nfe) {
                                 logger.error("The '" + cellData.text + "' value on the '" + cellData.columnName + "' column could not be parsed to a longitude coordinate.");
                             }
@@ -147,8 +158,87 @@ public class GeoJSONExporter implements WriterExporter {
                     features.add(feature);
                 } else if (jtsGeometry != null) {
                     org.wololo.geojson.Geometry geometry = geoJSONWriter.write(jtsGeometry);
-                    features.add(new Feature(geometry, properties));
+
+                    Class<? extends org.wololo.geojson.Geometry> c = geometry.getClass();
+                    if (c.equals(org.wololo.geojson.Point.class)) {
+                        org.wololo.geojson.Point point = (org.wololo.geojson.Point) geometry;
+                        double[] coordinates = point.getCoordinates();
+                        double[] _coordinates = new double[]{
+                                Math.round(coordinates[0] * scaleFactor) / scaleFactor,
+                                Math.round(coordinates[1] * scaleFactor) / scaleFactor
+                        };
+
+                        org.wololo.geojson.Point _point = new org.wololo.geojson.Point(_coordinates);
+
+                        features.add(new Feature(_point, properties));
+                    } else if (c.equals(org.wololo.geojson.LineString.class)) {
+                        org.wololo.geojson.LineString lineString = (org.wololo.geojson.LineString) geometry;
+                        double[][] coordinates = lineString.getCoordinates();
+
+                        for (int i = 0; i < coordinates.length; i++) {
+                            for (int j = 0; j < coordinates[i].length; j++) {
+                                coordinates[i][j] = Math.round(coordinates[i][j] * scaleFactor) / scaleFactor;
+                            }
+                        }
+
+                        features.add(new Feature(new org.wololo.geojson.LineString(coordinates), properties));
+                    } else if (c.equals(org.wololo.geojson.Polygon.class)) {
+                        org.wololo.geojson.Polygon polygon = (org.wololo.geojson.Polygon) geometry;
+                        double[][][] coordinates = polygon.getCoordinates();
+
+                        for (int i = 0; i < coordinates.length; i++) {
+                            for (int j = 0; j < coordinates[i].length; j++) {
+                                for (int k = 0; k < coordinates[i][j].length; k++) {
+                                    coordinates[i][j][k] = Math.round(coordinates[i][j][k] * scaleFactor) / scaleFactor;
+                                }
+                            }
+                        }
+
+                        features.add(new Feature(new org.wololo.geojson.Polygon(coordinates), properties));
+                    } else if (c.equals(org.wololo.geojson.MultiPoint.class)) {
+                        org.wololo.geojson.MultiPoint multiPoint = (org.wololo.geojson.MultiPoint) geometry;
+                        double[][] coordinates = multiPoint.getCoordinates();
+
+                        for (int i = 0; i < coordinates.length; i++) {
+                            for (int j = 0; j < coordinates[i].length; j++) {
+                                coordinates[i][j] = Math.round(coordinates[i][j] * scaleFactor) / scaleFactor;
+                            }
+                        }
+
+                        features.add(new Feature(new org.wololo.geojson.MultiPoint(coordinates), properties));
+                    } else if (c.equals(org.wololo.geojson.MultiLineString.class)) {
+                        org.wololo.geojson.MultiLineString multiLineString = (org.wololo.geojson.MultiLineString) geometry;
+                        double[][][] coordinates = multiLineString.getCoordinates();
+
+                        for (int i = 0; i < coordinates.length; i++) {
+                            for (int j = 0; j < coordinates[i].length; j++) {
+                                for (int k = 0; k < coordinates[i][j].length; k++) {
+                                    coordinates[i][j][k] = Math.round(coordinates[i][j][k] * scaleFactor) / scaleFactor;
+                                }
+                            }
+                        }
+
+                        features.add(new Feature(new org.wololo.geojson.MultiLineString(coordinates), properties));
+                    } else if (c.equals(org.wololo.geojson.MultiPolygon.class)) {
+                        org.wololo.geojson.MultiPolygon multiPolygon = (org.wololo.geojson.MultiPolygon) geometry;
+                        double[][][][] coordinates = multiPolygon.getCoordinates();
+
+                        for (int i = 0; i < coordinates.length; i++) {
+                            for (int j = 0; j < coordinates[i].length; j++) {
+                                for (int k = 0; k < coordinates[i][j].length; k++) {
+                                    for (int l = 0; l < coordinates[i][j][k].length; l++) {
+                                        coordinates[i][j][k][l] = Math.round(coordinates[i][j][k][l] * scaleFactor) / scaleFactor;
+                                    }
+                                }
+                            }
+                        }
+
+                        features.add(new Feature(new org.wololo.geojson.MultiPolygon(coordinates), properties));
+                    } else {
+
+                    }
                 } else {
+
                 }
             }
         };
