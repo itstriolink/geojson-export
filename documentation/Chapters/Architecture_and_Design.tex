@@ -1,0 +1,137 @@
+\chapter{Architecture and Design}
+\section{Architecture}
+The extensions are built using the \href{https://www.java.com/en/}{Java} programming language (Java Platform SE 8),
+which is fully compliant with the OpenRefine development environment.
+The extension are built as a "separate" component from OpenRefine, meaning it has to manually be added/installed to an
+existing OpenRefine application environment.\\
+\newline
+The extension is compiled using \href{https://maven.apache.org/index.html}{Apache Maven} and consists of client-side
+resources such as .html, .css, .less, .js files and of server-side resources i.e. Java classes. These Java classes are
+bundled during the initialization of OpenRefine and can consist of controllers, commands, functions etc. They are invoked
+using HTTP requests such as GET or POST with AJAX. All of the necessary client-side resources and server-side resources must be
+injected to OpenRefine using the \mintinline{java}{init()} function of the extension.\\
+\newline
+When the extension is built, all of the Java classes and the client-side resources are stored in a directory which need to be copied to
+the OpenRefine installation \\extension directory in order for it to be bundled together with the OpenRefine application.\\
+\newline
+An extension of OpenRefine has the following file structure:
+\begin{minted}
+[
+    frame=lines
+]
+{bash}
+pom.xml
+  src/
+      com/foo/bar/... *.java source files
+  module/
+      *.html, *.vt files
+      scripts/... *.js files
+      styles/... *.css and *.less files
+      images/... image files
+      MOD-INF/
+          lib/*.jar files
+          classes/... java class files
+          module.properties
+          controller.js
+\end{minted}
+More information on installing extensions can be found \href{https://docs.openrefine.org/manual/installing#installing-extensions}{here}.
+OpenRefine's official documentation also includes an article on how to write extensions \href{https://docs.openrefine.org/technical-reference/writing-extensions}{here}.\\
+\newline
+\subsection{The Solution Stack}
+This extension was built using the Java programming language, version 8, for the back end. For the front-end portion,
+a combination of Javascript, the jQuery library, LESS and HTML was used. \\
+\newline
+\href{https://www.java.com/en/}{Java} is a powerful general-purpose programming language.
+It is used to develop desktop and mobile applications,
+big data processing, embedded systems, and so on.
+According to Oracle, the company that owns Java, Java runs on 3 billion devices worldwide, which makes Java one of the
+most popular programming languages.~\cite{WhatIsJava}\\
+\newline
+The reason why this plugin was chosen to be built and developed using Java is
+because of OpenRefine, it is programmed using Java,
+so all its extensions must also be written in Java (using OpenRefine\textquotesingle s extension
+architecture). All of the OpenRefine extensions are developed inside the
+OpenRefine environment as a separate bundled directory and must use OpenRefine\textquotesingle s
+native Java methods in order to be communicate with OpenRefine\textquotesingle s core engine.\\
+It is also an Object-Oriented programming language, which runs under any operating system
+(because of its compiler) and uses inheritance and abstract methods (Object Oriented programming principles),
+which turned out to be useful and appropriate for the nature of this extension.\\
+\newline
+
+For the front-end, the usual front-end stack was used to develop the UI parts i.e. Javascript, jQuery, LESS and HTML.
+\pagebreak
+\section{Design Decisions}
+This section of architecture and design contains information on the various decisions that were taken for this project and the reasons that stand behind those decisions.
+There are decisions that belong to the project as a whole and also to each of the extensions individually.
+\newline
+An important notation for this chapter is the "Architectural Knowledge Management (AKM): "Y-Approach"~\cite{AKMHomepage} - In deciding how much design rationale is enough, the Y-approach has been followed~\cite{YApproach}. It helps capturing a decision by providing a skeleton of statements. One example of this approach is the following statement:
+\begin{itemize}
+	\item Architectural Decision \#1 - In the context/decision on how to efficiently fetch OpenStreetMap data, we decided to use The Overpass API as a service for communicating the OpenStreetMap data back to our requests. This approach is compatible with the KISS principle, which was also applied in scope of this work.
+\end{itemize}
+The following sections of this chapter contain tables containing information on the decisions and their reasons for each of the extensions and also some other general decisions.
+\pagebreak
+\subsection{OSM Extractor}
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\textwidth}{| X | X |} \hline
+        \textbf{Decision} & \textbf{Reason}\\[1cm] \hline
+        The \href{https://github.com/topobyte/osm4j}{osm4j} library is used for unmarshalling the OpenStreetMap XML data &
+        The \href{https://github.com/topobyte/osm4j}{osm4j} library provides geometry and utility functions that are
+        useful for processing OpenStreetMap XML data and for querying the Overpass API,
+        turning it out to be a perfect fit for this extension\textquotesingle s implementation.\\ \hline
+        The \href{https://github.com/locationtech/jts}{JTS Topology Suite} library is used to process the geometry objects. &
+        OpenStreetMap data is first converted to \textit{Simple Feature} geometry objects before inserting into OpenRefine (explained later in the document).
+        The \href{https://github.com/locationtech/jts}{JTS Topology Suite} provides useful classes and functions for dealing with such geometry objects (Points, LineStrings, Polygons etc).\\ \hline
+        The Well-Known Text (WKT) geometry representation format is used to represent the \textit{Simple Feature} geometry objects. &
+        Any type of \textit{Simple Feature} geometry object can be represented using WKT and it can be stored in a single
+        cell without having any dependencies to another cell or needing more than one cell.\\ \hline
+        \mintinline{bash}{Polygons} are not offered as a type of Geometry in the extension. &
+        It is left up to the user to choose what geometries are Polygons and what still remain as MultiPolygons.\\ \hline
+        \mintinline{bash}{out center;} is not supported as an Overpass QL command. &
+        The reason is because the \href{https://github.com/topobyte/osm4j}{osm4j} library is a library that processes OpenStreetMap
+        XML data and not precisely data retrieved from the Overpass API.
+        Since the \mintinline{xml}{<center>} attribute is more Overpass specific, the osm4j repository does not support such an attribute.
+        Here is also the issue opened in the osm4j repository: \href{https://github.com/topobyte/osm4j/issues/3}{https://github.com/topobyte/osm4j/issues/3}
+        The interior point can be however calculated using the GREL function \mintinline{java}{interiorPoint()} that is included in this extension.\\ \hline
+        \mintinline{sql}{[out:json];} and \mintinline{sql}{[out:csv];} are not supported in the extension. & This extension deals with only OpenStreetMap
+        XML data and not with other types of representations. The \href{https://github.com/topobyte/osm4j}{osm4j} library also does not support reading
+        \textit{JSON} or \textit{CSV} OpenStreetMap data.\\ \hline
+    \end{tabularx}
+    \caption{Design Decisions - OSM Extractor}
+\end{table}
+\pagebreak
+\subsection{GeoJSON Export}
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\textwidth}{| X | X |} \hline
+        \textbf{Decision} & \textbf{Reason}\\[1cm] \hline
+        The \href{https://github.com/bjornharrtell/jts2geojson}{jts2geojson} library is used for
+        converting JTS geometry to GeoJSON. & The \href{https://github.com/bjornharrtell/jts2geojson}{jts2geojson} library is
+        able to convert JTS geometries to GeoJSON and back. \\ \hline
+        The \href{https://github.com/locationtech/jts}{JTS Topology Suite} library is used to process the geometry objects. &
+        The \href{https://github.com/bjornharrtell/jts2geojson}{jts2geojson} requires JTS Geometry in order to be able to convert it to GeoJSON.
+        The latitude/longitude columns and WKT strings are used together with the JTS library to create JTS Geometry.
+        Points are created using their X and Y values into a JTS Point Geometry and WKT strings are converted to JTS geometry
+        using the \href{https://locationtech.github.io/jts/javadoc/org/locationtech/jts/io/WKTReader.html}{\mintinline{bash}{WKT Reader}}
+        JTS class. These geometries are then continously stored as GeoJSON features and at the end of the iteration,
+        they are added to the \mintinline{bash}{FeatureCollection}.
+        This \mintinline{bash}{FeatureCollection} is used as GeoJSON data for the exported GeoJSON file.\\ \hline
+        The Well-Known Text (WKT) geometry is used as the geometry representation format for exporting to GeoJSON. &
+        Any type of geometry object can be represented using WKT and it can be stored in a single
+        cell without having any dependencies to another cell or needing more than one cell. \\ \hline
+    \end{tabularx}
+    \caption{Design Decisions - GeoJSON Export}
+\end{table}
+\pagebreak
+\subsection{Other General Decisions}
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\textwidth}{| X | X |} \hline
+        \textbf{Decision} & \textbf{Reason}\\[1cm] \hline
+        A new OpenRefine base data type for representing \textit{Geometry} objects is not added. & The reason for this is
+        because OpenRefine\textquotesingle s core engine does not support the addition of adding a new base data type via an extension. The only way
+        to add a new base data type would be to create an OpenRefine distribution and that wasn\textquotesingle t the goal of this project. \\ \hline
+    \end{tabularx}
+    \caption{Design Decisions - Other}
+\end{table}
+\pagebreak

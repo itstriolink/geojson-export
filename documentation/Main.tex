@@ -1,4 +1,4 @@
-\documentclass[a4paper, 12pt, oneside]{Main}
+\documentclass[a4paper, 11pt, oneside]{Main}
 \renewcommand{\familydefault}{\sfdefault} 
 \usepackage{helvet}
 
@@ -10,12 +10,16 @@
 \usepackage{tikz} 
 \usepackage[export]{adjustbox}
 \usepackage{float}
+\usepackage{textcomp}
 \usepackage{lipsum}
 \usepackage{todonotes}
 \usepackage[cache=false]{minted}
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \usepackage{url}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{breakurl}
 
 \definecolor{shadecolor}{RGB}{180, 180, 180}
 
@@ -29,10 +33,10 @@
 \fancyhead[R]{\thepage}
 
 \begin{document}
+\sloppy
 \frontmatter  
 
 \input{Titlepage/Titlepage}
-
 
 \setstretch{1.2} 
 
@@ -42,51 +46,51 @@
 	\input{Abstract/Abstract}
 	
 }
-\newpage
-\acknowledgements{
-	\addtocontents{toc}{\vspace{1em}}
-	\input{Acknowledgements/Acknowledgements}
-}
-\newpage
 \input{Chapters/ManagementSummary}
-\addtocontents{toc}{\protect\setcounter{tocdepth}{1}}
-\newpage
+\addtocontents{toc}{\vspace{1em}\protect\setcounter{tocdepth}{1}}
 
-\Declaration{
-	\addtocontents{toc}{\vspace{1em}}
-	\input{Declaration/DeclarationOfOriginality}
-}
-
-
-\setcounter{tocdepth}{1}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
 \tableofcontents 
 
 \mainmatter
 
 \input{Chapters/Introduction}
+\input{Chapters/Spatial_Data}
 \input{Chapters/OpenRefine}
+\input{Chapters/Architecture_and_Design}
 \input{Chapters/OSM_Extractor}
 \input{Chapters/GeoJSON_Export}
-\input{Chapters/Conclusion}
+\input{Chapters/The_OpenRefine_Worksheet}
+\input{Chapters/Results}
 
 \listoffigures
-\addtocontents{toc}{\vspace{2em}}
+
+\acknowledgements{
+	\addtocontents{toc}{\vspace{1em}}
+	\input{Acknowledgements/Acknowledgements}
+}
+\pagebreak
+\Declaration{
+	\addtocontents{toc}{\vspace{1em}}
+	\input{Declaration/DeclarationOfOriginality}
+}
+\pagebreak
+\addtocontents{toc}{\vspace{1em}}
 
 \appendix 
 
 \lhead{\emph{Appendix}}
 
 \input{Appendices/Installation}
-\input{Appendices/Usage}
-\input{Appendices/TestData}
-
-\newpage
-\addtocontents{toc}{\vspace{2em}}
+\input{Appendices/Testing}
+\input{Appendices/Project_Management}
+\input{Appendices/Coding_Statistics}
+\input{Appendices/The_OpenRefine_Worksheet}
 
 \backmatter
 
 \label{Bibliography}
-\lhead{\emph{Bibliography}}
 \bibliographystyle{unsrtnat}
 \bibliography{Bibliography} 
 

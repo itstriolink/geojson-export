@@ -1,11 +1,11 @@
 %%
-%% This is file `Seminar.cls', based on 'ECSthesis.cls', by Steve R. Gunn
+%% This is file `Main.cls', based on 'ECSthesis.cls', by Steve R. Gunn
 %% generated with the docstrip utility.
 %%
 %% Created by Steve R. Gunn, modified by Sunil Patel: www.sunilpatel.co.uk
 
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
-\ProvidesClass{Seminar}
+\ProvidesClass{Main}
               [2007/22/02 v1.0
    LaTeX document class]
 \def\baseclass{book}
@@ -147,15 +147,15 @@
 \examiner    {}
 \degree      {}
 \authors     {}
-\university  {\texorpdfstring{\href{https://www.ost..ch/}
-                {OST – Ostschweizer Fachhochschule}}
-                {OST – Ostschweizer Fachhochschule}}
-\department  {\texorpdfstring{\href{https://www.ost.ch/de/studium/technik/master-of-science-in-engineering-mse/profile/mse-computer-science}
-                {Computer Science TBD}}
-                {Computer Science TBD}}
+\university  {\texorpdfstring{\href{https://https://www.ost.ch/en//}
+                {Eastern Switzerland University of Applied Sciences}}
+                {Eastern Switzerland University of Applied Sciences}}
+\department  {\texorpdfstring{\href{https://www.ost.ch/en/education/technical-sciences/master-of-science-in-engineering-mse/profiles/mse-computer-sciencee}
+                {Computer Science}}
+                {Computer Science}}
 \faculty     {\texorpdfstring{\href{https://www.msengineering.ch/en/specializations/information-and-communication-technologies.html}
-                {Information and Communication Technologies TBD }}
-                {Information and Communication Technologies TBD}}
+                {Information and Communication Technologies}}
+                {Information and Communication Technologies}}
 \addresses   {}
 \subject     {}
 \keywords    {}
@@ -342,4 +342,4 @@
   \@mainmatterfalse}
 \endinput
 %%
-%% End of file `Seminar.cls'.
+%% End of file `Main.cls'.
