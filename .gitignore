@@ -1,6 +1,7 @@
 target/
 module/MOD-INF/classes/
 module/MOD-INF/lib/
+
 .idea
 
 *.class
@@ -16,3 +17,11 @@ module/MOD-INF/lib/
 *.rar
 
 *.iml
+
+documentation/*
+!documentation/*.aux
+!documentation/*.bib
+!documentation/*.cls
+!documentation/*.sty
+!documentation/*.tex
+!documentation/**/

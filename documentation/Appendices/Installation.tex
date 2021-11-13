@@ -1,0 +1,16 @@
+\chapter{Installation}
+For installing the extension and including it in OpenRefine, you need to:
+\begin{itemize}
+    \item Download the latest release of the extension from project releases as an archived folder (.zip or .tgz)
+    \item Unzip the folder into OpenRefine's \mintinline{bash}{/extensions} folder
+\end{itemize}
+For more information on how to install extensions, visit OpenRefine's official documentation on
+\href{https://docs.openrefine.org/manual/installing#installing-extensions}{installing extensions}.
+The extension can also be compiled manually if preferred.
+To do so, you need to have the source code repository and also Maven Apache installed.
+When the requirements are met, execute the two following commands:
+\begin{itemize}
+    \item \mintinline{bash}{mvn clean compile} - Compiles the project
+    \item \mintinline{bash}{mvn assembly:single} - Assembles the project into the required directory structure for
+     OpenRefine to be included in the \mintinline{bash}{/extensions} folder
+\end{itemize}

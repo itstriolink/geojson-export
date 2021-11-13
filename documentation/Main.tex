@@ -1,0 +1,97 @@
+\documentclass[a4paper, 11pt, oneside]{Main}
+\renewcommand{\familydefault}{\sfdefault} 
+\usepackage{helvet}
+
+\graphicspath{Figures/}
+
+\usepackage[square, numbers, comma, sort&compress]{natbib}
+\usepackage{verbatim}
+\hypersetup{urlcolor=blue, colorlinks=true}
+\usepackage{tikz} 
+\usepackage[export]{adjustbox}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{lipsum}
+\usepackage{todonotes}
+\usepackage[cache=false]{minted}
+\PassOptionsToPackage{hyphens}{url}
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{breakurl}
+
+\definecolor{shadecolor}{RGB}{180, 180, 180}
+
+\hbadness=99999
+\hfuzz=9999pt
+
+\pagestyle{fancy}
+\renewcommand\chaptermark[1]{\markboth{#1}{}}
+\fancyhf{}
+\fancyhead[L]{\emph\leftmark}
+\fancyhead[R]{\thepage}
+
+\begin{document}
+\sloppy
+\frontmatter  
+
+\input{Titlepage/Titlepage}
+
+\setstretch{1.2} 
+
+\addtotoc{Abstract}
+\abstract{
+	\addtocontents{toc}{\vspace{1em}} 
+	\input{Abstract/Abstract}
+	
+}
+\input{Chapters/ManagementSummary}
+\addtocontents{toc}{\vspace{1em}\protect\setcounter{tocdepth}{1}}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\tableofcontents 
+
+\mainmatter
+
+\input{Chapters/Introduction}
+\input{Chapters/Spatial_Data}
+\input{Chapters/OpenRefine}
+\input{Chapters/Architecture_and_Design}
+\input{Chapters/OSM_Extractor}
+\input{Chapters/GeoJSON_Export}
+\input{Chapters/The_OpenRefine_Worksheet}
+\input{Chapters/Results}
+
+\listoffigures
+
+\acknowledgements{
+	\addtocontents{toc}{\vspace{1em}}
+	\input{Acknowledgements/Acknowledgements}
+}
+\pagebreak
+\Declaration{
+	\addtocontents{toc}{\vspace{1em}}
+	\input{Declaration/DeclarationOfOriginality}
+}
+\pagebreak
+\addtocontents{toc}{\vspace{1em}}
+
+\appendix 
+
+\lhead{\emph{Appendix}}
+
+\input{Appendices/Installation}
+\input{Appendices/Testing}
+\input{Appendices/Project_Management}
+\input{Appendices/Coding_Statistics}
+\input{Appendices/The_OpenRefine_Worksheet}
+
+\backmatter
+
+\label{Bibliography}
+\bibliographystyle{unsrtnat}
+\bibliography{Bibliography} 
+
+\end{document}
