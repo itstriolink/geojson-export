@@ -1,0 +1,51 @@
+\chapter{Testing}
+\section{Test Workflow}\label{sec:test-workflow}
+As mentioned in the paper, each new release of the extensions was thoroughly tested using a test workflow that was
+carefully composed by my advisor and by Felix Reiniger. The test workflow includes testing the extensions\textquotesingle  features
+thoroughly to make sure that all of them work as expected.\\
+\newline
+This is the workflow that was used to test the extensions (after each release):
+\begin{minted}[breaklines, tabsize=2]{text}
+Test and Demo Workflow Scripts
+Workflow - Testing OpenRefine extension - GeoJSON export:
+* Preparation/dependencies:
+* Install (download latest release: here) Labian Gashi's “GeoJsonExport” OpenRefine extension.
+* Download castle map as JSON from Overpass Turbo using this query. (“castles_ch_overpass.json”)
+  * Launch OpenRefine with the extension
+  * Import the downloaded file ("castles_ch_overpass.json") via the “Create Project”->”This Computer” ->”Browse”.
+  * In the parsing options, select the first element in the “elements” bracket of the JSON object and set it as the record path (required for creating the project)
+  * Export as GeoJSON (.geojson) => Save as file "castles_ch_openrefine.geojson" (Select all Columns and set lat & lon according to thier respective column)
+  * Manually compare file "castles_ch_openrefine.json" with "castles_ch_overpass.geojson". (Check if all the selected Columns got exported)
+  * Feed the result into geojson.io (for geojson validation and a visual check)
+
+NOTE: It is not mandatory to import the values from JSON, geometry data can be imported from anywhere or be part of an existing project, the idea is to have at least lat/long or WKT columns in your OpenRefine dataset.
+
+
+
+
+Workflow - Testing OpenRefine - OSM Extractor und GeoJSON export:
+* Install (download latest release: here) Labian Gashi’s “OSMExtractor” OpenRefine extension.
+
+* Preparation/dependencies: Labian Gashi's OpenRefine extensions.
+  * Launch OpenRefine with both of the extensions;
+  * Click on New Project and choose OpenStreetMap (Overpass) from the options
+  * Enter the "Burgen Schweiz" query which you can find here
+  * Click on Next -> and wait for the query to finish executing
+  * A mapping options table containing OSM tags will be displayed. Identifier, Metadata and Main tags are automatically selected, you can select all the other tags you want to include in the project.
+  * Choose a Geometry numeric scale and set it to 5 (Indicates the amounts of digits after the decimal point – defaults to 7)
+  * Besides the automatically selected geometries, check “Include Points as delimited text (latitude, longitude) with seperator = ‘,’” as well.
+  * Create Project
+  * Apply the interiorPoint() function to the WKT geometry column to generate a new column containing “center” coordinates (as WKT)
+  * “WKT Column” -> “Edit Column” -> “Add column based on this column”
+  * Enter following expression: “interiorPoint(value)”
+  * Give the column a name and create the column
+  * Do a GeoJSON export => Save as GeoJSON file. "castles_ch_openrefine2.geojson"
+  * Load and view the GeoJSON data in geojson.io web app.
+\end{minted}
+\section{Test Data}
+The data that was used to test the extensions were mostly taken from Overpass
+Turbo queries (some examples are contained in each of the chapter's
+\textit{Example} sections).\\
+\newline
+That same data generated from the OSM Extractor was also used to test the \textbf{GeoJSON Export}
+extension.

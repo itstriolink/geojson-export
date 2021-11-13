@@ -4,7 +4,7 @@
 
     <groupId>com.labiangashi.refine</groupId>
     <artifactId>geojson-export</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>jar</packaging>
 
     <name>OpenRefine - GeoJSON Export Extension</name>
