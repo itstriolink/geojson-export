@@ -2,7 +2,7 @@
 
 Description
 ------
-OpenRefine extension that allows you to export OpenRefine data to GeoJSON (supports latitude/longitude values and WKT strings)
+OpenRefine extension that allows you to export OpenRefine data to GeoJSON. Supports latitude/longitude coordinates and Well-Known Text (WKT).
 
 Installation
 ------
@@ -21,6 +21,6 @@ Usage
 Author
 ------
 
-Extension is written by [Labian Gashi](https://gitlab.com/labiangashi)
+Extension is written by [Labian Gashi](https://gitlab.com/labiangashi).
 
-Feedback is welcome
+Feedback is welcome.
